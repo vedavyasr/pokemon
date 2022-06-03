@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   const pokemon = await resp.json();
   return {
     paths: pokemon.map((pok) => ({
-      params: { id: pokemon.id.toString() },
+      params: { id: pok.id.toString() },
     })),
     fallback:false
   };
