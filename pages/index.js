@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import Head from "next/Head";
-import Link from "next/Link";
+import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
