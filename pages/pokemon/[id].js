@@ -1,29 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../../styles/Details.module.css";
-export default function Details() {
-  const {
-    query: { id },
-  } = useRouter();
-  const [pokemon, setPokemon] = useState({});
 
-  useEffect(() => {
-    const fetchPokemon = async () => {
-      const resp = await fetch(
-        `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${id}.json`
-      );
-      const data = await resp.json();
+export async function getServerSideProps({ params }) {
+  const resp = await fetch(
+    `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params.id}.json`
+  );
+  const data = await resp.json();
+  return {
+    props: {
+      pokemon: data,
+    },
+  };
+}
 
-      setPokemon(data);
-    };
-    if (id) {
-      fetchPokemon();
-    }
-  }, [id]);
-  console.log(pokemon);
+export default function Details({pokemon}) {
+ 
   return (
     <div>
       <Head>
@@ -52,13 +45,12 @@ export default function Details() {
           </tr>
         </thead>
         <tbody>
-          {
-            pokemon?.stats?.map(({ name, value }) => (
-              <tr key={name}>
-                <td className={styles.attribute}>{name}</td>
-                <td>{value}</td>
-              </tr>
-            ))}
+          {pokemon?.stats?.map(({ name, value }) => (
+            <tr key={name}>
+              <td className={styles.attribute}>{name}</td>
+              <td>{value}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

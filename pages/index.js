@@ -4,20 +4,22 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
-  const [pokemon, setPokemon] = useState([]);
 
-  useEffect(() => {
-    const fetchPokemon = async () => {
-      const resp = await fetch(
-        "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
-      );
-      const data = await resp.json();
+export async function getServerSideProps() {
+  const resp = await fetch(
+    "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+  );
+  const data = await resp.json();
+    return {
+      props: {
+        pokemon: data
+      }
+    }
+}
 
-      setPokemon(data);
-    };
-    fetchPokemon();
-  }, []);
+
+
+export default function Home({pokemon}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -42,7 +44,6 @@ export default function Home() {
           </div>
         ))}
       </div>
-      )
     </div>
   );
 }
