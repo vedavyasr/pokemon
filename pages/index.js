@@ -1,4 +1,4 @@
-import Image from "next/Image";
+/* eslint-disable @next/next/no-img-element */
 import Head from "next/Head";
 import Link from "next/Link";
 import { useEffect, useState } from "react";
